@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>es6基础 02 | Kissshot</title><meta name="author" content="Kissshot"><meta name="copyright" content="Kissshot"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="1. es6-Number1.1 Number函数 Number.isNaN函数Number.isNaN(&#39;abc&#39;);返回false；判断是否是NaN，除了NaN以外，都为false；没有隐式类型转换  Number.isFinite函数Number.isFinite(Infinity);返回flase；判断数值是否是有限，只有Infinity是无限的，其他数值因为17位精确度问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6基础 02">
+<meta property="og:url" content="http://example.com/post/20220221111106.html">
+<meta property="og:site_name" content="Kissshot">
+<meta property="og:description" content="1. es6-Number1.1 Number函数 Number.isNaN函数Number.isNaN(&#39;abc&#39;);返回false；判断是否是NaN，除了NaN以外，都为false；没有隐式类型转换  Number.isFinite函数Number.isFinite(Infinity);返回flase；判断数值是否是有限，只有Infinity是无限的，其他数值因为17位精确度问">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp">
+<meta property="article:published_time" content="2022-02-21T11:11:06.000Z">
+<meta property="article:modified_time" content="2022-02-21T11:11:06.000Z">
+<meta property="article:author" content="Kissshot">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "es6基础 02",
+  "url": "http://example.com/post/20220221111106.html",
+  "image": "https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp",
+  "datePublished": "2022-02-21T11:11:06.000Z",
+  "dateModified": "2022-02-21T11:11:06.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kissshot",
+      "url": "https://hitagi.site/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="http://example.com/post/20220221111106.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playball&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":450,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'es6基础 02',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://lsky.kissshot.site/img/2025/02/06/67a4528aa1546.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56c61e74fd.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E4%BB%A3%E7%A0%81/"><i class="fa-fw fas fa-code"></i><span> 代码</span></a></li><li><a class="site-page child" href="/categories/%E6%9D%82%E8%AE%B0/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kissshot</span></a><a class="nav-page-title" href="/"><span class="site-name">es6基础 02</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E4%BB%A3%E7%A0%81/"><i class="fa-fw fas fa-code"></i><span> 代码</span></a></li><li><a class="site-page child" href="/categories/%E6%9D%82%E8%AE%B0/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">es6基础 02</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-21T11:11:06.000Z" title="发表于 2022-02-21 11:11:06">2022-02-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-21T11:11:06.000Z" title="更新于 2022-02-21 11:11:06">2022-02-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;已经过了&quot;,&quot;messageNext&quot;:&quot;天自上次更新，文章内容可能已过时。&quot;,&quot;postUpdate&quot;:&quot;2022-02-21 11:11:06&quot;}" hidden></div><h2 id="1-es6-Number"><a href="#1-es6-Number" class="headerlink" title="1. es6-Number"></a>1. es6-Number</h2><h3 id="1-1-Number函数"><a href="#1-1-Number函数" class="headerlink" title="1.1 Number函数"></a>1.1 Number函数</h3><ol>
+<li><p>Number.isNaN函数<br><code>Number.isNaN(&#39;abc&#39;);</code>返回false；判断是否是NaN，除了NaN以外，都为false；没有隐式类型转换</p>
+</li>
+<li><p>Number.isFinite函数<br><code>Number.isFinite(Infinity);</code>返回flase；判断数值是否是有限，只有Infinity是无限的，其他数值因为17位精确度问题都有限</p>
+</li>
+<li><p>Number.parseInt函数<br><code>Number.parseInt(&quot;124.sd&quot;);</code>返回123； 解析字符串返回一个整数</p>
+</li>
+<li><p>Number.isInteger<br><code>Number.isInteger(3.00);</code>但会true；判断是否是整数</p>
+</li>
+</ol>
+<h3 id="1-2-Math函数"><a href="#1-2-Math函数" class="headerlink" title="1.2 Math函数"></a>1.2 Math函数</h3><p><code>Math.trunc(3.4);</code>返回3；返回传入数值的整数，相当于向下取整</p>
+<p><code>Math.sign(3);</code>返回1；判断数值正负；正数返回1、复数返回-1、0返回0</p>
+<h2 id="2-es6-Object"><a href="#2-es6-Object" class="headerlink" title="2. es6-Object"></a>2. es6-Object</h2><h3 id="2-1-新写法"><a href="#2-1-新写法" class="headerlink" title="2.1 新写法"></a>2.1 新写法</h3><p>es6允许在对象字面量中直接写入变量和函数，作为对象的属性和方法。此时，属性名就是变量名，属性的值就是变量的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = <span class="string">&#x27;zs&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> age = <span class="number">12</span>;</span><br><span class="line"><span class="keyword">let</span> f = <span class="string">&quot;foo&quot;</span></span><br><span class="line"><span class="keyword">let</span> person = &#123;</span><br><span class="line">    [f]:<span class="string">&#x27;yiKaLuoSi&#x27;</span>,name, age, <span class="title function_">say</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="title function_">alert</span>(<span class="string">&quot;hi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(person.<span class="property">foo</span>);<span class="comment">//yiKaLuoSi</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-Object函数"><a href="#2-2-Object函数" class="headerlink" title="2.2 Object函数"></a>2.2 Object函数</h3><p><code>Object.is(num1, num2);</code>返回false；判断两个值是否严格相等</p>
+<p><code>Object.assign(target,origin);</code>把源对象的属性复制到目标对象上；返回目标对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> target = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> source = &#123; <span class="attr">b</span>: <span class="number">4</span>, <span class="attr">c</span>: <span class="number">5</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> returnedTarget = <span class="title class_">Object</span>.<span class="title function_">assign</span>(target, source);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target);<span class="comment">//Object &#123; a: 1, b: 4, c: 5 &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Object.getPrototypeOf(person);</code>用于获取指定对象的原型</p>
+<p><code>Object.setPrototypeOf()</code>用于设置一个指定的对象的原型 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dict = <span class="title class_">Object</span>.<span class="title function_">setPrototypeOf</span>(&#123;&#125;, <span class="literal">null</span>);<span class="comment">//指定空对象的原型为空</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Object.entries();</code>遍历对象，返回可枚举属性（除Symbol外）的键值对数组</p>
+<p><code>Object.keys()</code>遍历对象，返回一个给定对象的所有可枚举属性的字符串数组</p>
+<p><code>Object.values()</code>遍历对象，返回一个包含对象自身的所有可枚举属性值的数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person2 = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;zs&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">19</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">entries</span>(person2));</span><br><span class="line"><span class="comment">//Array [Array [&quot;name&quot;, &quot;zs&quot;], Array [&quot;age&quot;, 19]]</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">keys</span>(person2));</span><br><span class="line"><span class="comment">//[&quot;name&quot;, &quot;age&quot;]</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">values</span>(person2));</span><br><span class="line"><span class="comment">//[&quot;zs&quot;, 19]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-es6-function"><a href="#3-es6-function" class="headerlink" title="3. es6-function"></a>3. es6-function</h2><h3 id="3-1-rest参数（剩余参数）"><a href="#3-1-rest参数（剩余参数）" class="headerlink" title="3.1 rest参数（剩余参数）"></a>3.1 rest参数（剩余参数）</h3><p>如果函数的最后一个命名参数以<code>...</code>为前缀，则它将成为一个由剩余参数组成的真数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fun</span>(<span class="params">a, b, ...theArgs</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(theArgs);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">fun</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>);<span class="comment">//[3,4,5]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-扩展运算符"><a href="#3-2-扩展运算符" class="headerlink" title="3.2 扩展运算符"></a>3.2 扩展运算符</h3><p>用于将一个数组转成一个对应的参数数列</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">x, y, z</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">sum</span>(...numbers));</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-箭头函数"><a href="#3-3-箭头函数" class="headerlink" title="3.3 箭头函数"></a>3.3 箭头函数</h3><p>基础语法</p>
+<p>(参数列表) &#x3D;&gt; {返回值}</p>
+<p>高级用法：支持剩余参数和默认参数、支持参数列表结构</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="title function_">fun</span> = (<span class="params">param1, param2</span>) =&gt; &#123; <span class="keyword">return</span> expression; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-symbol"><a href="#4-symbol" class="headerlink" title="4. symbol"></a>4. symbol</h2><p>symbol 是一种基本数据类型 。<code>Symbol()</code>函数会返回symbol类型的值，该类型具有静态属性和静态方法。它的静态属性会暴露几个内建的成员对象；它的静态方法会暴露全局的symbol注册</p>
+<p>每个从<code>Symbol()</code>返回的symbol值都是唯一的。一个symbol值能作为对象属性的标识符；这是该数据类型仅有的目的。</p>
+<p>基础语法：<code>let sym1 = Symbol(&#39;foo&#39;);</code></p>
+<p>symbol作为属性名不会被遍历到</p>
+<h3 id="4-1-Symbol函数"><a href="#4-1-Symbol函数" class="headerlink" title="4.1 Symbol函数"></a>4.1 Symbol函数</h3><ol>
+<li>Object.getOwnPropertySymbols函数</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于获取对象的symbol属性</span></span><br><span class="line"><span class="keyword">let</span> name = <span class="title class_">Symbol</span>(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> person = &#123;</span><br><span class="line">    [name]: <span class="string">&#x27;zs&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">12</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">getOwnPropertySymbols</span>(person);<span class="comment">//[Symbol(name)]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Reflect.ownKeys函数</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于获取对象包含symbol属性的所有属性</span></span><br><span class="line"><span class="title class_">Reflect</span>.<span class="title function_">ownKeys</span>(person);<span class="comment">// [&quot;age&quot;, Symbol(name)]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>Symbol.for(key)函数<br>使用给定的key搜索现有的symbol，如果找到则返回该symbol。否则将使用给定的key在全局symbol注册表中创建一个新的symbol  </p>
+<p>key：一个字符串，作为 symbol 注册表中与某 symbol 关联的键（同时也会作为该 symbol 的描述）</p>
+</li>
+<li><p>Symbol.keyFor(sym)<br>用来获取全局symbol 注册表中与某个 symbol 关联的键</p>
+</li>
+</ol>
+<h2 id="5-Proxy"><a href="#5-Proxy" class="headerlink" title="5. Proxy"></a>5. Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）</p>
+<p>实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="title class_">Proxy</span>(target, handler)</span><br></pre></td></tr></table></figure>
+
+<p>target：要使用 <code>Proxy</code> 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。</p>
+<p>handler：一个通常以函数作为属性的对象，各属性中的函数分别定义了在执行各种操作时代理 <code>p</code> 的行为。</p>
+<h3 id="5-1-get、set、ownKeys、has方法"><a href="#5-1-get、set、ownKeys、has方法" class="headerlink" title="5.1 get、set、ownKeys、has方法"></a>5.1 get、set、ownKeys、has方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person = &#123; <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;zs&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">15</span> &#125;</span><br><span class="line"><span class="keyword">let</span> proxy1 = <span class="keyword">new</span> <span class="title class_">Proxy</span>(person, &#123;</span><br><span class="line">    <span class="comment">//get方法用于拦截对象的读取属性操作</span></span><br><span class="line">    <span class="comment">//target 目标对象、property 被获取的属性名、receiver Proxy或者继承Proxy的对象</span></span><br><span class="line">    <span class="attr">get</span>: <span class="keyword">function</span> (<span class="params">target, property</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;lks&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">20</span> &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//set方法是设置属性值操作的捕获器</span></span><br><span class="line">    <span class="comment">//target 目标对象、property 将被设置的属性名、value 新属性值</span></span><br><span class="line">    <span class="attr">set</span>: <span class="keyword">function</span> (<span class="params">target, property, value</span>) &#123;</span><br><span class="line">        target[property] = value;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`已更名为<span class="subst">$&#123;value&#125;</span>`</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//ownKeys用于拦截: </span></span><br><span class="line">    <span class="comment">// Object.getOwnPropertyNames()</span></span><br><span class="line">    <span class="comment">// Object.getOwnPropertySymbols()</span></span><br><span class="line">    <span class="comment">// Object.keys()</span></span><br><span class="line">    <span class="comment">// Reflect.ownKeys()</span></span><br><span class="line">    <span class="comment">//target 目标对象</span></span><br><span class="line">    <span class="attr">ownKeys</span>: <span class="keyword">function</span> (<span class="params">target</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// has会拦截key in object的操作，结果会返回一个布尔值</span></span><br><span class="line">    <span class="comment">//target 目标对象、property 需要检查是否存在的属性</span></span><br><span class="line">    <span class="attr">has</span>: <span class="keyword">function</span> (<span class="params">target, property</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (target[property] === <span class="literal">undefined</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(proxy1.<span class="property">name</span>);<span class="comment">//&#123;name: &quot;lks&quot;, age: 20&#125;</span></span><br><span class="line">proxy1.<span class="property">name</span> = <span class="string">&#x27;ttk&#x27;</span>;<span class="comment">//已更名为ttk</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(person.<span class="property">name</span>);<span class="comment">//ttk</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Reflect</span>.<span class="title function_">ownKeys</span>(proxy1));<span class="comment">//[&quot;name&quot;]</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Reflect</span>.<span class="title function_">ownKeys</span>(person));<span class="comment">// [&quot;name&quot;, &quot;age&quot;]</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;age&#x27;</span> <span class="keyword">in</span> proxy1);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-2-apply方法"><a href="#5-2-apply方法" class="headerlink" title="5.2 apply方法"></a>5.2 apply方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sum</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> proxy2 = <span class="keyword">new</span> <span class="title class_">Proxy</span>(sum, &#123;</span><br><span class="line">    <span class="comment">// apply会拦截函数的调用</span></span><br><span class="line">    <span class="comment">// target 目标对象（函数）、thisArg 被调用时的上下文对象(必须有)、argumentsList 被调用时的参数数组 </span></span><br><span class="line">    <span class="attr">apply</span>: <span class="keyword">function</span> (<span class="params">target, thisArg, argumentsList</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">target</span>(argumentsList[<span class="number">0</span>], argumentsList[<span class="number">1</span>]) * <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">sum</span>(<span class="number">1</span>, <span class="number">2</span>));<span class="comment">// 3</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">proxy2</span>(<span class="number">1</span>, <span class="number">2</span>));<span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-Proxy-revocable方法"><a href="#5-3-Proxy-revocable方法" class="headerlink" title="5.3 Proxy.revocable方法"></a>5.3 Proxy.revocable方法</h3><p><code>Proxy.revocable()</code> 方法用来创建一个可撤销的代理对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person3 = &#123; <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;zs&#x27;</span> &#125;</span><br><span class="line"><span class="keyword">let</span> revocable = <span class="title class_">Proxy</span>.<span class="title function_">revocable</span>(person3, &#123;</span><br><span class="line">    <span class="title function_">get</span>(<span class="params">target, property</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;lks&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(revocable.<span class="property">proxy</span>.<span class="property">name</span>);<span class="comment">//lks</span></span><br><span class="line">revocable.<span class="title function_">revoke</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(revocable.<span class="property">proxy</span>.<span class="property">name</span>); <span class="comment">// 抛出 TypeError</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-for…of"><a href="#6-for…of" class="headerlink" title="6. for…of"></a>6. for…of</h2><p><code>for...of</code>语句在可迭代对象（包括Array，Map，Set，String，arguments 等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值执行语句；不能迭代Object对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> iterable = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> iterable) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-1-for总结"><a href="#6-1-for总结" class="headerlink" title="6.1 for总结"></a>6.1 for总结</h3><blockquote>
+<p>forEach可以取得对象的内容，不能操作遍历的进程<br>for in常用于对象的遍历，对遍历数字数组取到的时字符串类型<br>for of写法简洁，除了对象都可以遍历，很先进</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://hitagi.site/">Kissshot</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/post/20220221111106.html">http://example.com/post/20220221111106.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Kissshot</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/es6/">es6</a></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/post/20220221111112.html" title="es6基础 03"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">es6基础 03</div></div></div></a><a class="pagination-related  no-desc" href="/post/20220221111045.html" title="es6基础 01"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">es6基础 01</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/post/20220221111045.html" title="es6基础 01"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2022-02-21</div><div class="info-item-2">es6基础 01</div></div></div></a><a class="pagination-related no-desc" href="/post/20220221111112.html" title="es6基础 03"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2022-02-21</div><div class="info-item-2">es6基础 03</div></div></div></a><a class="pagination-related no-desc" href="/post/20220221111118.html" title="es6基础 04"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2022-02-21</div><div class="info-item-2">es6基础 04</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Artalk</span><span id="switch-btn"></span><span class="second-comment">Twikoo</span></div></div><div class="comment-wrap"><div><div id="artalk-wrap"></div></div><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56c61e74fd.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kissshot</div><div class="author-info-description">不可结缘</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/hearthitagi" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1760603940@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-es6-Number"><span class="toc-text">1. es6-Number</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-Number%E5%87%BD%E6%95%B0"><span class="toc-text">1.1 Number函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Math%E5%87%BD%E6%95%B0"><span class="toc-text">1.2 Math函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-es6-Object"><span class="toc-text">2. es6-Object</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%96%B0%E5%86%99%E6%B3%95"><span class="toc-text">2.1 新写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Object%E5%87%BD%E6%95%B0"><span class="toc-text">2.2 Object函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-es6-function"><span class="toc-text">3. es6-function</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-rest%E5%8F%82%E6%95%B0%EF%BC%88%E5%89%A9%E4%BD%99%E5%8F%82%E6%95%B0%EF%BC%89"><span class="toc-text">3.1 rest参数（剩余参数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">3.2 扩展运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0"><span class="toc-text">3.3 箭头函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-symbol"><span class="toc-text">4. symbol</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-Symbol%E5%87%BD%E6%95%B0"><span class="toc-text">4.1 Symbol函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Proxy"><span class="toc-text">5. Proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-get%E3%80%81set%E3%80%81ownKeys%E3%80%81has%E6%96%B9%E6%B3%95"><span class="toc-text">5.1 get、set、ownKeys、has方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-apply%E6%96%B9%E6%B3%95"><span class="toc-text">5.2 apply方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-Proxy-revocable%E6%96%B9%E6%B3%95"><span class="toc-text">5.3 Proxy.revocable方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-for%E2%80%A6of"><span class="toc-text">6. for…of</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-for%E6%80%BB%E7%BB%93"><span class="toc-text">6.1 for总结</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2025 By Kissshot</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  let artalkItem = null
+  const option = null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const destroyArtalk = () => {
+    if (artalkItem) {
+      artalkItem.destroy()
+      artalkItem = null
+    }
+  }
+
+  const artalkChangeMode = theme => artalkItem && artalkItem.setDarkMode(theme === 'dark')
+
+  const initArtalk = (el = document, pageKey = location.pathname) => {
+    artalkItem = Artalk.init({
+      el: el.querySelector('#artalk-wrap'),
+      server: 'https://artalk.v6.kissshot.site:33120',
+      site: 'hitagi-blog',
+      darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
+      ...option,
+      pageKey: isShuoshuo ? pageKey : (option && option.pageKey) || pageKey
+    })
+
+    if (GLOBAL_CONFIG.lightbox === 'null') return
+    artalkItem.on('list-loaded', () => {
+      artalkItem.ctx.get('list').getCommentNodes().forEach(comment => {
+        const $content = comment.getRender().$content
+        btf.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
+      })
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyArtalk = () => {
+        destroyArtalk()
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    btf.addGlobalFn('pjaxSendOnce', destroyArtalk, 'destroyArtalk')
+    btf.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
+  }
+
+  const loadArtalk = async (el, pageKey) => {
+    if (typeof Artalk === 'object') initArtalk(el, pageKey)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js')
+      initArtalk(el, pageKey)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Artalk'
+      ? window.shuoshuoComment = { loadComment: loadArtalk }
+      : window.loadOtherComment = loadArtalk
+    return
+  }
+
+  if ('Artalk' === 'Artalk' || !true) {
+    if (true) btf.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
+    else setTimeout(loadArtalk, 100)
+  } else {
+    window.loadOtherComment = loadArtalk
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://taupe-flan-bb5ab5.netlify.app/.netlify/functions/twikoo',
+      region: 'ap-southeast-1',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://taupe-flan-bb5ab5.netlify.app/.netlify/functions/twikoo',
+      region: 'ap-southeast-1',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Artalk' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

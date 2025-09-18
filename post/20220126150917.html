@@ -1,0 +1,482 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>javaScript基础 05 | Kissshot</title><meta name="author" content="Kissshot"><meta name="copyright" content="Kissshot"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="1. 正则表达式正则表达式是用于匹配字符串中字符组合的模式。在 JavaScript中，正则表达式也是对象。 1.1 创建正则表达式1234&#x2F;&#x2F;字面量var re &#x3D; &#x2F;\w+&#x2F;;&#x2F;&#x2F;构造函数var re &#x3D; new RegExp(&quot;\\w+&quot;);  1.2 特殊字符   字符 含义    \d 匹配一个数字   \D 匹配一个非数字字符   \s 匹配一个空白符（包括空格，制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaScript基础 05">
+<meta property="og:url" content="http://example.com/post/20220126150917.html">
+<meta property="og:site_name" content="Kissshot">
+<meta property="og:description" content="1. 正则表达式正则表达式是用于匹配字符串中字符组合的模式。在 JavaScript中，正则表达式也是对象。 1.1 创建正则表达式1234&#x2F;&#x2F;字面量var re &#x3D; &#x2F;\w+&#x2F;;&#x2F;&#x2F;构造函数var re &#x3D; new RegExp(&quot;\\w+&quot;);  1.2 特殊字符   字符 含义    \d 匹配一个数字   \D 匹配一个非数字字符   \s 匹配一个空白符（包括空格，制">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp">
+<meta property="article:published_time" content="2022-01-26T15:09:17.000Z">
+<meta property="article:modified_time" content="2022-01-26T15:09:17.000Z">
+<meta property="article:author" content="Kissshot">
+<meta property="article:tag" content="javaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "javaScript基础 05",
+  "url": "http://example.com/post/20220126150917.html",
+  "image": "https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp",
+  "datePublished": "2022-01-26T15:09:17.000Z",
+  "dateModified": "2022-01-26T15:09:17.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kissshot",
+      "url": "https://hitagi.site/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="http://example.com/post/20220126150917.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playball&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":450,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'javaScript基础 05',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://lsky.kissshot.site/img/2025/02/06/67a4528aa1546.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56c61e74fd.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E4%BB%A3%E7%A0%81/"><i class="fa-fw fas fa-code"></i><span> 代码</span></a></li><li><a class="site-page child" href="/categories/%E6%9D%82%E8%AE%B0/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kissshot</span></a><a class="nav-page-title" href="/"><span class="site-name">javaScript基础 05</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E4%BB%A3%E7%A0%81/"><i class="fa-fw fas fa-code"></i><span> 代码</span></a></li><li><a class="site-page child" href="/categories/%E6%9D%82%E8%AE%B0/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">javaScript基础 05</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-26T15:09:17.000Z" title="发表于 2022-01-26 15:09:17">2022-01-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-26T15:09:17.000Z" title="更新于 2022-01-26 15:09:17">2022-01-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;已经过了&quot;,&quot;messageNext&quot;:&quot;天自上次更新，文章内容可能已过时。&quot;,&quot;postUpdate&quot;:&quot;2022-01-26 15:09:17&quot;}" hidden></div><h2 id="1-正则表达式"><a href="#1-正则表达式" class="headerlink" title="1. 正则表达式"></a>1. 正则表达式</h2><p>正则表达式是用于匹配字符串中字符组合的模式。在 JavaScript中，正则表达式也是对象。</p>
+<h3 id="1-1-创建正则表达式"><a href="#1-1-创建正则表达式" class="headerlink" title="1.1 创建正则表达式"></a>1.1 创建正则表达式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字面量</span></span><br><span class="line"><span class="keyword">var</span> re = <span class="regexp">/\w+/</span>;</span><br><span class="line"><span class="comment">//构造函数</span></span><br><span class="line"><span class="keyword">var</span> re = <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="string">&quot;\\w+&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-特殊字符"><a href="#1-2-特殊字符" class="headerlink" title="1.2 特殊字符"></a>1.2 特殊字符</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\d</td>
+<td>匹配一个数字</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配一个空白符（包括空格，制表符）</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配一个非空白字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配一个单字字符(字母或数字或下划线)</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配一个非单字字符（不是字母，数字，下划线）</td>
+</tr>
+</tbody></table>
+<p>限定符</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>匹配输入的开始</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入的结束</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前一个表达式 0 次或多次。等价于 <code>&#123;0,&#125;</code></td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面一个表达式 1 次或者多次。等价于 <code>&#123;1,&#125;</code></td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面一个表达式 0 次或者 1 次。等价于 <code>&#123;0,1&#125;</code></td>
+</tr>
+<tr>
+<td>.</td>
+<td>默认匹配除换行符之外的任何单个字符</td>
+</tr>
+</tbody></table>
+<p>组合符</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x(?&#x3D;y)</td>
+<td>匹配’x’仅仅当’x’后面跟着’y’.这种叫做先行断言</td>
+</tr>
+<tr>
+<td>(?&lt;&#x3D;y)x</td>
+<td>匹配’x’仅当’x’前面是’y’.这种叫做后行断言</td>
+</tr>
+<tr>
+<td>x(?!y)</td>
+<td>仅仅当’x’后面不跟着’y’时匹配’x’，这被称为正向否定查找</td>
+</tr>
+<tr>
+<td>(?&lt;!y)x</td>
+<td>仅仅当’x’前面不是’y’时匹配’x’，这被称为反向否定查找</td>
+</tr>
+<tr>
+<td>x|y</td>
+<td>匹配‘x’或者‘y’</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>n 是一个正整数，匹配前面一个字符刚好出现了 n 次</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>n是一个正整数，匹配前一个字符至少出现了n次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>n 和 m 都是整数。匹配前面的字符至少n次，最多m次</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>一个字符集合。匹配方括号中的任意字符</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>一个反向字符集, 它匹配任何没有包含在方括号中的字符</td>
+</tr>
+<tr>
+<td>[\u4e00-\u9fa5]</td>
+<td>匹配汉字</td>
+</tr>
+</tbody></table>
+<p>标志</p>
+<table>
+<thead>
+<tr>
+<th>标志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>g</td>
+<td>全局搜索</td>
+</tr>
+<tr>
+<td>i</td>
+<td>不区分大小写</td>
+</tr>
+</tbody></table>
+<h2 id="2-正则匹配"><a href="#2-正则匹配" class="headerlink" title="2. 正则匹配"></a>2. 正则匹配</h2><p>regexp.test(str)</p>
+<p>方法执行一个检索，用来查看正则表达式与指定的字符串是否匹配；</p>
+<p>返回值：如果正则表达式与指定的字符串匹配 ，返回<code>true</code>；否则<code>false</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;hello world!&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> result = <span class="regexp">/^hello/</span>.<span class="title function_">test</span>(str);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-正则提取"><a href="#3-正则提取" class="headerlink" title="3. 正则提取"></a>3. 正则提取</h2><p>str.match(regexp)</p>
+<p>方法检索返回一个字符串匹配正则表达式的结果</p>
+<p>返回值：</p>
+<ul>
+<li>如果使用g标志，则将返回与完整正则表达式匹配的所有结果的数组</li>
+<li>如果未使用g标志，则仅返回第一个完整匹配的数组</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> paragraph = <span class="string">&#x27;This is lazy dog. It barked.&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> regex = <span class="regexp">/[A-Z]/</span>;</span><br><span class="line"><span class="keyword">let</span> found = paragraph.<span class="title function_">match</span>(regex);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(found);<span class="comment">//[&quot;T&quot;, &quot;I&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-正则替换"><a href="#4-正则替换" class="headerlink" title="4. 正则替换"></a>4. 正则替换</h2><p>str.replace(substr | regexp, newSubStr | function)</p>
+<p>replace() 方法返回一个由新值替换旧值后产生的新字符串。替换模式可以是一个字符串或者一个正则表达式，新值可以是一个字符串或者一个每次匹配都要调用的回调函数</p>
+<p>返回值：一个由替换规则替换后的新字符串</p>
+<p>当第二个参数为回调函数时，当匹配执行后，该函数就会执行。 函数的返回值作为替换字符串。另外要注意的是，如果第一个参数是正则表达式，并且其为全局匹配模式，那么这个方法将被多次调用，每次匹配都会被调用。</p>
+<p>回调函数的常用参数如下</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>代表的值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>match</code></td>
+<td>匹配的子串</td>
+</tr>
+<tr>
+<td><code>p1,p2, ...</code></td>
+<td>假如replace()方法的第一个参数是一个正则表达式，则代表第n个括号匹配的字符串</td>
+</tr>
+</tbody></table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">&#x27;10101&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> list = [];</span><br><span class="line"><span class="comment">// replace第一个参数可以为正则表达式，这时第二个参数为回调函数，返回值将替换掉正则表达式匹配到的结果</span></span><br><span class="line"><span class="keyword">var</span> fk = str.<span class="title function_">replace</span>(<span class="regexp">/(1)|(0)/g</span>, replacer);</span><br><span class="line"><span class="comment">// 第一个参数match为匹配到的字符串，第二个参数为正则表达式中第一个括号匹配到的字符串，以此类推</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">replacer</span>(<span class="params">match, p1, p2</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (p1) &#123; list.<span class="title function_">push</span>(<span class="string">&quot;on&quot;</span>) &#125;</span><br><span class="line">    <span class="keyword">if</span> (p2) &#123; list.<span class="title function_">push</span>(<span class="string">&quot;off&quot;</span>) &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(list);<span class="comment">// [&quot;on&quot;, &quot;off&quot;, &quot;on&quot;, &quot;off&quot;, &quot;on&quot;]</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(fk);<span class="comment">// 11111</span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://hitagi.site/">Kissshot</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/post/20220126150917.html">http://example.com/post/20220126150917.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Kissshot</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/javaScript/">javaScript</a></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/post/20220126151034.html" title="jquery基础 01"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">jquery基础 01</div></div></div></a><a class="pagination-related  no-desc" href="/post/20220126150816.html" title="javaScript基础 04"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">javaScript基础 04</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/post/20220331152320.html" title="javaScript嵌套函数return"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2022-03-31</div><div class="info-item-2">javaScript嵌套函数return</div></div></div></a><a class="pagination-related no-desc" href="/post/20241203124227.html" title="js文件格式相互转换"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2024-12-03</div><div class="info-item-2">js文件格式相互转换</div></div></div></a><a class="pagination-related no-desc" href="/post/20240125095919.html" title="js节流与防抖"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56b2c9cb55.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2025-05-19</div><div class="info-item-2">js节流与防抖</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Artalk</span><span id="switch-btn"></span><span class="second-comment">Twikoo</span></div></div><div class="comment-wrap"><div><div id="artalk-wrap"></div></div><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56c61e74fd.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kissshot</div><div class="author-info-description">不可结缘</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/hearthitagi" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1760603940@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">1. 正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%88%9B%E5%BB%BA%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">1.1 创建正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="toc-text">1.2 特殊字符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D"><span class="toc-text">2. 正则匹配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%A3%E5%88%99%E6%8F%90%E5%8F%96"><span class="toc-text">3. 正则提取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%AD%A3%E5%88%99%E6%9B%BF%E6%8D%A2"><span class="toc-text">4. 正则替换</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2025 By Kissshot</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  let artalkItem = null
+  const option = null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const destroyArtalk = () => {
+    if (artalkItem) {
+      artalkItem.destroy()
+      artalkItem = null
+    }
+  }
+
+  const artalkChangeMode = theme => artalkItem && artalkItem.setDarkMode(theme === 'dark')
+
+  const initArtalk = (el = document, pageKey = location.pathname) => {
+    artalkItem = Artalk.init({
+      el: el.querySelector('#artalk-wrap'),
+      server: 'https://artalk.v6.kissshot.site:33120',
+      site: 'hitagi-blog',
+      darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
+      ...option,
+      pageKey: isShuoshuo ? pageKey : (option && option.pageKey) || pageKey
+    })
+
+    if (GLOBAL_CONFIG.lightbox === 'null') return
+    artalkItem.on('list-loaded', () => {
+      artalkItem.ctx.get('list').getCommentNodes().forEach(comment => {
+        const $content = comment.getRender().$content
+        btf.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
+      })
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyArtalk = () => {
+        destroyArtalk()
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    btf.addGlobalFn('pjaxSendOnce', destroyArtalk, 'destroyArtalk')
+    btf.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
+  }
+
+  const loadArtalk = async (el, pageKey) => {
+    if (typeof Artalk === 'object') initArtalk(el, pageKey)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js')
+      initArtalk(el, pageKey)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Artalk'
+      ? window.shuoshuoComment = { loadComment: loadArtalk }
+      : window.loadOtherComment = loadArtalk
+    return
+  }
+
+  if ('Artalk' === 'Artalk' || !true) {
+    if (true) btf.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
+    else setTimeout(loadArtalk, 100)
+  } else {
+    window.loadOtherComment = loadArtalk
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://taupe-flan-bb5ab5.netlify.app/.netlify/functions/twikoo',
+      region: 'ap-southeast-1',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://taupe-flan-bb5ab5.netlify.app/.netlify/functions/twikoo',
+      region: 'ap-southeast-1',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Artalk' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

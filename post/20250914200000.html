@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Umijs学习记录 | Kissshot</title><meta name="author" content="Kissshot"><meta name="copyright" content="Kissshot"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="1.路由约定式路由内容参考：约定式路由 1.1配置式路由在.umirc.(ts|js)或config&#x2F;config.(ts|js)配置文件中指定routes属性。   routes配置项存在时，约定式路由不会生效 12345678910111213&#x2F;&#x2F;配置式路由export default &#123;  routes: [    &#123; path: &#x27;&#x2F;&#x27;, compo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Umijs学习记录">
+<meta property="og:url" content="http://example.com/post/20250914200000.html">
+<meta property="og:site_name" content="Kissshot">
+<meta property="og:description" content="1.路由约定式路由内容参考：约定式路由 1.1配置式路由在.umirc.(ts|js)或config&#x2F;config.(ts|js)配置文件中指定routes属性。   routes配置项存在时，约定式路由不会生效 12345678910111213&#x2F;&#x2F;配置式路由export default &#123;  routes: [    &#123; path: &#x27;&#x2F;&#x27;, compo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lsky.kissshot.site/img/2025/04/07/67f31509b45cf.webp">
+<meta property="article:published_time" content="2025-09-14T20:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-14T20:00:00.000Z">
+<meta property="article:author" content="Kissshot">
+<meta property="article:tag" content="UmiJS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lsky.kissshot.site/img/2025/04/07/67f31509b45cf.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Umijs学习记录",
+  "url": "http://example.com/post/20250914200000.html",
+  "image": "https://lsky.kissshot.site/img/2025/04/07/67f31509b45cf.webp",
+  "datePublished": "2025-09-14T20:00:00.000Z",
+  "dateModified": "2025-09-14T20:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kissshot",
+      "url": "https://hitagi.site/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="http://example.com/post/20250914200000.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playball&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":450,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Umijs学习记录',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://lsky.kissshot.site/img/2025/02/06/67a4528aa1546.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56c61e74fd.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E4%BB%A3%E7%A0%81/"><i class="fa-fw fas fa-code"></i><span> 代码</span></a></li><li><a class="site-page child" href="/categories/%E6%9D%82%E8%AE%B0/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kissshot</span></a><a class="nav-page-title" href="/"><span class="site-name">Umijs学习记录</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/%E4%BB%A3%E7%A0%81/"><i class="fa-fw fas fa-code"></i><span> 代码</span></a></li><li><a class="site-page child" href="/categories/%E6%9D%82%E8%AE%B0/"><i class="fa-fw fas fa-mug-saucer"></i><span> 杂记</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友人帐</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Umijs学习记录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-14T20:00:00.000Z" title="发表于 2025-09-14 20:00:00">2025-09-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-14T20:00:00.000Z" title="更新于 2025-09-14 20:00:00">2025-09-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%A3%E7%A0%81/">代码</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;已经过了&quot;,&quot;messageNext&quot;:&quot;天自上次更新，文章内容可能已过时。&quot;,&quot;postUpdate&quot;:&quot;2025-09-14 20:00:00&quot;}" hidden></div><h1 id="1-路由"><a href="#1-路由" class="headerlink" title="1.路由"></a>1.路由</h1><p>约定式路由内容参考：<a target="_blank" rel="noopener" href="https://v2.umijs.org/zh/guide/router.html#%E7%BA%A6%E5%AE%9A%E5%BC%8F%E8%B7%AF%E7%94%B1">约定式路由</a></p>
+<h2 id="1-1配置式路由"><a href="#1-1配置式路由" class="headerlink" title="1.1配置式路由"></a>1.1配置式路由</h2><p>在<code>.umirc.(ts|js)</code>或<code>config/config.(ts|js)</code>配置文件中指定<code>routes</code>属性。  </p>
+<p>routes配置项存在时，约定式路由不会生效</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置式路由</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">routes</span>: [</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./a&#x27;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">&#x27;/list&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./b&#x27;</span>, <span class="title class_">Routes</span>: [<span class="string">&#x27;./routes/PrivateRoute.js&#x27;</span>] &#125;,</span><br><span class="line">    &#123; <span class="attr">path</span>: <span class="string">&#x27;/users&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./users/_layout&#x27;</span>,</span><br><span class="line">      <span class="attr">routes</span>: [</span><br><span class="line">        &#123; <span class="attr">path</span>: <span class="string">&#x27;/users/detail&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./users/detail&#x27;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">path</span>: <span class="string">&#x27;/users/:id&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./users/id&#x27;</span> &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-1权限路由"><a href="#1-1-1权限路由" class="headerlink" title="1.1.1权限路由"></a>1.1.1权限路由</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123; <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/index.js&#x27;</span> &#125;,</span><br><span class="line">	&#123; <span class="attr">path</span>: <span class="string">&#x27;/list&#x27;</span>, <span class="attr">component</span>: <span class="string">&#x27;./pages/list.js&#x27;</span>,</span><br><span class="line">	  <span class="title class_">Routes</span>[<span class="string">&#x27;./routes/PrivateRoute.js&#x27;</span>]</span><br><span class="line">	&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">// PrivateRoute.js 示例</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Redirect</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;umi&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">PrivateRoute</span>(<span class="params">props</span>) &#123;</span><br><span class="line">  <span class="comment">// 假设从某个地方获取了 isLogin 状态</span></span><br><span class="line">  <span class="keyword">const</span> isLogin = <span class="title function_">checkUserLoginStatus</span>();</span><br><span class="line">  <span class="keyword">if</span> (isLogin) &#123;</span><br><span class="line">    <span class="comment">// 若已登录，渲染子组件（即真正的页面组件或其他包装器）</span></span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123; props.children &#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 若未登录，重定向到登录页</span></span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Redirect</span> <span class="attr">to</span>=<span class="string">&quot;/login&quot;</span> /&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>PrivateRoute</code>组件相当于list组件的父组件&#x2F;包装器。</p>
+<h2 id="1-2路由跳转"><a href="#1-2路由跳转" class="headerlink" title="1.2路由跳转"></a>1.2路由跳转</h2><h3 id="1-2-1声明式"><a href="#1-2-1声明式" class="headerlink" title="1.2.1声明式"></a>1.2.1声明式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Link</span> <span class="keyword">from</span> <span class="string">&#x27;umi/link&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="title function_">default</span> () =&gt; (</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&quot;/list&quot;</span>&gt;</span>Go to list page<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-2命令式"><a href="#1-2-2命令式" class="headerlink" title="1.2.2命令式"></a>1.2.2命令式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;umi/router&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">goToListPage</span>(<span class="params"></span>) &#123;</span><br><span class="line">  router.<span class="title function_">push</span>(<span class="string">&#x27;/list&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h1><p>umi 允许在 <code>.umirc.js</code> 或 <code>config/config.js</code> （二选一，<code>.umirc.js</code> 优先）</p>
+<p><strong>区分环境与配置环境变量</strong>  </p>
+<ol>
+<li>安装<code>npm install cross-env --save-dev</code></li>
+<li>修改<code>package.json</code></li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cross-env UMI_ENV=dev umi dev&quot;</span><span class="punctuation">,</span>        <span class="comment">// 开发环境</span></span><br><span class="line">    <span class="attr">&quot;build:test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cross-env UMI_ENV=test umi build&quot;</span><span class="punctuation">,</span> <span class="comment">// 测试环境</span></span><br><span class="line">    <span class="attr">&quot;build:prod&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cross-env UMI_ENV=prod umi build&quot;</span><span class="punctuation">,</span> <span class="comment">// 生产环境</span></span><br><span class="line">    <span class="attr">&quot;build:uat&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cross-env UMI_ENV=uat umi build&quot;</span>   <span class="comment">// UAT环境</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建环境配置文件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 示例：config/config.dev.js 或 .umirc.dev.js - 开发环境</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">define</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;process.env.UMI_ENV&#x27;</span>: <span class="string">&#x27;dev&#x27;</span>, <span class="comment">// 注入环境标识</span></span><br><span class="line">    <span class="string">&#x27;process.env.API_URL&#x27;</span>: <span class="string">&#x27;http://localhost:3000/api&#x27;</span>, <span class="comment">// 注入API地址</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 示例：config/config.prod.js 或 .umirc.prod.js - 生产环境</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">define</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;process.env.UMI_ENV&#x27;</span>: <span class="string">&#x27;prod&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;process.env.API_URL&#x27;</span>: <span class="string">&#x27;https://api.yourdomain.com/api&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>配置文件的其他配置参考：<a target="_blank" rel="noopener" href="https://v2.umijs.org/zh/config/#mock-exclude">配置</a></p>
+<h1 id="3-Mock数据"><a href="#3-Mock数据" class="headerlink" title="3.Mock数据"></a>3.Mock数据</h1><p>在umijs中使用如下方式模拟请求地址</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mockjs <span class="keyword">from</span> <span class="string">&#x27;mockjs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//冒号后面是时请求的返回内容</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">	<span class="comment">// 支持值为 Object 和 Array</span></span><br><span class="line">	<span class="string">&#x27;GET /api/users&#x27;</span>: &#123; <span class="attr">users</span>: [<span class="number">1</span>, <span class="number">2</span>] &#125;,</span><br><span class="line">	<span class="string">&#x27;GET /api/tags&#x27;</span>: mockjs.<span class="title function_">mock</span>(&#123;</span><br><span class="line">	    <span class="string">&#x27;list|100&#x27;</span>: [&#123; <span class="attr">name</span>: <span class="string">&#x27;@city&#x27;</span>, <span class="string">&#x27;value|1-100&#x27;</span>: <span class="number">50</span>, <span class="string">&#x27;type|0-2&#x27;</span>: <span class="number">1</span> &#125;],</span><br><span class="line">	&#125;),</span><br><span class="line">	<span class="comment">// 支持自定义函数</span></span><br><span class="line">	<span class="string">&#x27;POST /api/users/create&#x27;</span>: <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">		res.<span class="title function_">setHeader</span>(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;*&#x27;</span>);<span class="comment">//添加跨域请求头</span></span><br><span class="line">		res.<span class="title function_">end</span>(<span class="string">&#x27;OK&#x27;</span>); </span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="comment">//模拟延迟 也可以使用roadhog-api-doc</span></span><br><span class="line">	<span class="string">&#x27;POST /api/forms&#x27;</span>: <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">			res.<span class="title function_">send</span>(<span class="string">&#x27;Ok&#x27;</span>);</span><br><span class="line">		&#125;, <span class="number">1000</span>);</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="4-Dva（状态管理）"><a href="#4-Dva（状态管理）" class="headerlink" title="4.Dva（状态管理）"></a>4.Dva（状态管理）</h1><h2 id="4-1在配置文件中启用Dva"><a href="#4-1在配置文件中启用Dva" class="headerlink" title="4.1在配置文件中启用Dva"></a>4.1在配置文件中启用Dva</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dva</span>: &#123;</span><br><span class="line">    <span class="attr">immer</span>: <span class="literal">true</span>, <span class="comment">// 启用 immer 以方便 reducer 中直接修改 state</span></span><br><span class="line">    <span class="attr">hmr</span>: <span class="literal">false</span>,   <span class="comment">// 是否启用热更新</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="4-2-创建model"><a href="#4-2-创建model" class="headerlink" title="4.2 创建model"></a>4.2 创建model</h2><ul>
+<li>全局model放到src&#x2F;models目录下</li>
+<li>页面model放到src&#x2F;pages&#x2F;models目录下或src&#x2F;pages&#x2F;model.ts文件中</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>namespace</td>
+<td>模型的命名空间，必须是唯一的字符串，用于在全局 state 中标识该模型，也是连接组件时指定模型的关键。</td>
+</tr>
+<tr>
+<td>state</td>
+<td>模型的初始状态数据。</td>
+</tr>
+<tr>
+<td>effects</td>
+<td>用于处理异步操作（如异步请求）和业务逻辑。使用 Generator 函数编写，通过 <code>yield</code>控制异步流程。</td>
+</tr>
+<tr>
+<td>reducers</td>
+<td>用于处理同步操作，是唯一可以直接修改 <code>state</code>的地方。每个 reducer 都是一个纯函数，接收当前 state 和 action，返回新的 state。</td>
+</tr>
+<tr>
+<td>示例：</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/models/example.js 示例</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">namespace</span>: <span class="string">&#x27;example&#x27;</span>, <span class="comment">// 命名空间，必须唯一</span></span><br><span class="line">  <span class="attr">state</span>: &#123;</span><br><span class="line">    <span class="attr">count</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">data</span>: [],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">effects</span>: &#123;</span><br><span class="line">    <span class="comment">// 异步操作，使用 Generator 函数</span></span><br><span class="line">    *<span class="title function_">fetchData</span>(<span class="params">&#123; payload &#125;, &#123; call, put &#125;</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> response = <span class="keyword">yield</span> <span class="title function_">call</span>(api.<span class="property">fetchData</span>, payload); <span class="comment">// 调用异步函数</span></span><br><span class="line">      <span class="keyword">yield</span> <span class="title function_">put</span>(&#123; <span class="attr">type</span>: <span class="string">&#x27;saveData&#x27;</span>, <span class="attr">payload</span>: response &#125;); <span class="comment">// 触发 reducer 更新 state</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">reducers</span>: &#123;</span><br><span class="line">    <span class="comment">// 同步更新 state</span></span><br><span class="line">    <span class="title function_">saveData</span>(<span class="params">state, &#123; payload &#125;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        <span class="attr">data</span>: payload, <span class="comment">// 更新 state 中的 data</span></span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">increment</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        <span class="attr">count</span>: state.<span class="property">count</span> + <span class="number">1</span>, <span class="comment">// 直接更新 count</span></span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在组件中使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 页面组件示例</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">&#x27;umi&#x27;</span>; <span class="comment">// 从 umi 中引入 connect</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ExamplePage</span> = (<span class="params">&#123; dispatch, example &#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 从 props 中获取 dispatch 方法和 example state（对应 namespace 为 example 的 model）</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleFetch</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 使用 dispatch 触发 effects 中的异步操作</span></span><br><span class="line">    <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;example/fetchData&#x27;</span>, <span class="comment">// format: namespace/effectName</span></span><br><span class="line">      <span class="attr">payload</span>: &#123; <span class="attr">query</span>: <span class="string">&#x27;test&#x27;</span> &#125;, <span class="comment">// 传递参数</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleIncrement</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 使用 dispatch 触发 reducers 中的同步操作</span></span><br><span class="line">    <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;example/increment&#x27;</span>, <span class="comment">// format: namespace/reducerName</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Count: &#123;example.count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;handleIncrement&#125;</span>&gt;</span>Add<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;handleFetch&#125;</span>&gt;</span>Fetch Data<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;example.data &amp;&amp; example.data.result&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 namespace 为 &#x27;example&#x27; 的 state 连接到组件的 props</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">connect</span>(<span class="function">(<span class="params">&#123; example &#125;</span>) =&gt;</span> (&#123; example &#125;))(<span class="title class_">ExamplePage</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者使用Hook：useSelector和 useDispatch</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useSelector, useDispatch &#125; <span class="keyword">from</span> <span class="string">&#x27;umi&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ExamplePage</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 从全局 state 中选择 &#x27;example&#x27; namespace 的状态</span></span><br><span class="line">  <span class="keyword">const</span> exampleState = <span class="title function_">useSelector</span>(<span class="function"><span class="params">state</span> =&gt;</span> state.<span class="property">example</span>);</span><br><span class="line">  <span class="comment">// 获取 dispatch 方法</span></span><br><span class="line">  <span class="keyword">const</span> dispatch = <span class="title function_">useDispatch</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleFetch</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">dispatch</span>(&#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;example/fetchData&#x27;</span>,</span><br><span class="line">      <span class="attr">payload</span>: &#123; <span class="attr">query</span>: <span class="string">&#x27;test&#x27;</span> &#125;,</span><br><span class="line">    &#125;).<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 如果需要，可以在异步操作完成后执行回调</span></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Fetch completed!&#x27;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Count: &#123;exampleState.count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;handleFetch&#125;</span>&gt;</span>Fetch Data<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">ExamplePage</span>;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://hitagi.site/">Kissshot</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/post/20250914200000.html">http://example.com/post/20250914200000.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Kissshot</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/UmiJS/">UmiJS</a></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width no-desc" href="/post/20250904200000.html" title="React学习记录02"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/04/07/67f31509b3a67.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">React学习记录02</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Artalk</span><span id="switch-btn"></span><span class="second-comment">Twikoo</span></div></div><div class="comment-wrap"><div><div id="artalk-wrap"></div></div><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lsky.kissshot.site/img/2025/02/07/67a56c61e74fd.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kissshot</div><div class="author-info-description">不可结缘</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/hearthitagi" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1760603940@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%B7%AF%E7%94%B1"><span class="toc-text">1.路由</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1%E9%85%8D%E7%BD%AE%E5%BC%8F%E8%B7%AF%E7%94%B1"><span class="toc-text">1.1配置式路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-1%E6%9D%83%E9%99%90%E8%B7%AF%E7%94%B1"><span class="toc-text">1.1.1权限路由</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC"><span class="toc-text">1.2路由跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1%E5%A3%B0%E6%98%8E%E5%BC%8F"><span class="toc-text">1.2.1声明式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2%E5%91%BD%E4%BB%A4%E5%BC%8F"><span class="toc-text">1.2.2命令式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE"><span class="toc-text">2.配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Mock%E6%95%B0%E6%8D%AE"><span class="toc-text">3.Mock数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Dva%EF%BC%88%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%EF%BC%89"><span class="toc-text">4.Dva（状态管理）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1%E5%9C%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E5%90%AF%E7%94%A8Dva"><span class="toc-text">4.1在配置文件中启用Dva</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%88%9B%E5%BB%BAmodel"><span class="toc-text">4.2 创建model</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent;"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2025 By Kissshot</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  let artalkItem = null
+  const option = null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const destroyArtalk = () => {
+    if (artalkItem) {
+      artalkItem.destroy()
+      artalkItem = null
+    }
+  }
+
+  const artalkChangeMode = theme => artalkItem && artalkItem.setDarkMode(theme === 'dark')
+
+  const initArtalk = (el = document, pageKey = location.pathname) => {
+    artalkItem = Artalk.init({
+      el: el.querySelector('#artalk-wrap'),
+      server: 'https://artalk.v6.kissshot.site:33120',
+      site: 'hitagi-blog',
+      darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
+      ...option,
+      pageKey: isShuoshuo ? pageKey : (option && option.pageKey) || pageKey
+    })
+
+    if (GLOBAL_CONFIG.lightbox === 'null') return
+    artalkItem.on('list-loaded', () => {
+      artalkItem.ctx.get('list').getCommentNodes().forEach(comment => {
+        const $content = comment.getRender().$content
+        btf.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
+      })
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyArtalk = () => {
+        destroyArtalk()
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    btf.addGlobalFn('pjaxSendOnce', destroyArtalk, 'destroyArtalk')
+    btf.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
+  }
+
+  const loadArtalk = async (el, pageKey) => {
+    if (typeof Artalk === 'object') initArtalk(el, pageKey)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js')
+      initArtalk(el, pageKey)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Artalk'
+      ? window.shuoshuoComment = { loadComment: loadArtalk }
+      : window.loadOtherComment = loadArtalk
+    return
+  }
+
+  if ('Artalk' === 'Artalk' || !true) {
+    if (true) btf.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
+    else setTimeout(loadArtalk, 100)
+  } else {
+    window.loadOtherComment = loadArtalk
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://taupe-flan-bb5ab5.netlify.app/.netlify/functions/twikoo',
+      region: 'ap-southeast-1',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://taupe-flan-bb5ab5.netlify.app/.netlify/functions/twikoo',
+      region: 'ap-southeast-1',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Artalk' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Artalk' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
